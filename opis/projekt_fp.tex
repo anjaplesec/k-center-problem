@@ -1,0 +1,93 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage[slovene]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{wrapfig}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{siunitx}
+\usepackage{eurosym}
+
+\begin{document}
+
+\title{Kratka predstavitev problema k-centrov}
+\author{Filip Nose in Anja Plesec}
+\date{December, 2020}
+\maketitle
+
+\newpage
+
+
+\section{Opis problema}
+
+Problem k-centrov (angl. \textit{k-center problem}) govori o izbiri najboljše lokacije za $k$ objektov na tak način, da minimiziramo največjo razdaljo med mesti, kjer je povpraševanje, ter najbljižjim krajem, kjer je objekt postavljen. Primeri teh objektov so gasilski in zdravstveni domovi, skladišča, šole itd.
+\par
+Problem k-centrov lahko formuliramo z neusmerjenim grafom. Podan imamo graf $G = (V, E)$, kjer $V$ predstavlja množico vozlišč danega grafa, $E$ pa množico povezav. Poleg tega povezavam dodelimo pozitivne uteži $d_{ij}$, ki predstavljajo razdaljo med vozliščem $i$ in vozliščem $j$. Cilj je najti množico $S \subseteq V$  in vozlišče $v \in V$, kjer je $|S|\leq$ k, tako da bo razdalja $\max\limits_{v \in V} d(v, S)$ najmanjša.
+\par
+ S preprostejšimi besedami bi lahko rekli, da je cilj najti vozlišče, ki minimizira maksimalno razdaljo med vozliščem in centrom.
+
+\section{Načrt dela}
+
+Poskuse bova izvedla na preprostejših grafih, kot so na primer mreže (z odstranjenimi robovi ali vozlišči) ali drevesa. Preverila bova tudi čas delovanja in spreminjanje optimalne vrednosti ob spreminjanju:
+\begin{itemize}
+\item{števila k,}
+\item{števila ogljišč ali robov, ki sva jih odstranila in}
+\item{velikosti mreže.}
+\end{itemize}
+
+
+\vspace{\baselineskip}
+\parindent 0mm
+Za iskanje k-centrov bova uporabila sledeč CLP:\\
+
+Vhodni podatki:
+\begin{itemize}
+\item{$d_{ij}$ \dots razdalja med vozliščem i in centrom j}
+\item{$k$ \dots število centrov, ki jih moramo locirati}
+\end{itemize}
+
+Spremenljivke:
+\begin{itemize}
+\item{$y_{i}=1$, če je v vozlišču $i$ center}
+\item{$x_{ij}= 1$, če vozlišče $i$ spada pod center $j$}
+\item{$R$ \dots maksimalna razdalja med vozliščem in najbližjim centrom}
+\end{itemize}
+
+\cleardoublepage
+
+Iščemo torej\\
+$$\max R$$
+
+pri pogojih:
+$$x_{ij} \in \{0,1\} \quad\forall i,j \in V\\$$
+$$y_{i} \in \{0,1\} \quad\forall i \in V \\$$
+$$\sum_{j \in V} x_{ij} \geq 1 \quad \forall i \in V \\$$
+$$\sum_{j \in V} y_{i} = k \\$$
+$$x_{ij} \leq y_{j} \quad \forall i,j \in V \\$$
+$$\sum_{j \in n} x_{ij} d_{ij} \leq R \quad\forall i \in V $$
+
+
+%\begin{equation*}
+%\begin{array}{rrclcl}
+%\displaystyle \max R \\
+%\textrm{pri pogojih}& x_{ij} \in \{0,1\}, &\quad\forall i,j \in N\\
+%&y_{i} \in \{0,1\}, &\quad\forall i \in N \\
+%&\sum_{j \in N} x_{ij}, \geq 1 &\quad \forall i \in V \\
+%&\sum_{j \in N} y_{i} = k \\
+%&x_{ij} \leq y_{j}, &\quad \forall i,j \in V \\
+%&\sum_{j \in n} x_{ij} d_{ij} \leq R, &\quad\forall i \in V
+%\end{array}
+%\end{equation*}
+
+
+\end{document}
